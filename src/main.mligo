@@ -1,9 +1,16 @@
-#import "token_metadata.mligo" "TokenMetadata"
-#import "storage.mligo" "Storage"
-
 let no_operation : operation list = []
 
-type storage = Storage.t
+type data = {token_id:nat;token_info:(string,bytes)map}
+type tm = (nat, data) big_map 
+
+type storage = {
+   token_metadata : tm;
+}
+
+let get_token_metadata (token_id : nat) (tm : tm) =
+   match Big_map.find_opt token_id tm with
+      Some data -> data
+   | None -> failwith "FA2_TOKEN_UNDEFINED"
 
 type result = (operation list * storage)
 
@@ -12,5 +19,5 @@ let main (_p, s : unit * storage) : result =
 
 [@view]
 let token_metadata ((p, s) : (nat * storage))
-: TokenMetadata.data =
-  TokenMetadata.get_token_metadata p s.token_metadata
+: data =
+  get_token_metadata p s.token_metadata
