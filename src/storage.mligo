@@ -1,6 +1,5 @@
 #import "token_metadata.mligo" "TokenMetadata"
 
-type 'a t = {
+type t = {
    token_metadata : TokenMetadata.t;
-   extension : 'a;
 }

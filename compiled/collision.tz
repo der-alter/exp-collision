@@ -1,15 +1,10 @@
-{ parameter string ;
-  storage
-    (pair (big_map %extension string bytes)
-          (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes)))) ;
+{ parameter unit ;
+  storage (big_map nat (pair (nat %token_id) (map %token_info string bytes))) ;
   code { CDR ; NIL operation ; PAIR } ;
   view "token_metadata"
        nat
        (pair (nat %token_id) (map %token_info string bytes))
        { UNPAIR ;
-         SWAP ;
-         CDR ;
-         SWAP ;
          GET ;
          IF_NONE { PUSH string "FA2_TOKEN_UNDEFINED" ; FAILWITH } {} } }
 

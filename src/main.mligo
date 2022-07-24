@@ -3,18 +3,14 @@
 
 let no_operation : operation list = []
 
-type extension = {metadata : (string, bytes) big_map}
-
 type storage = Storage.t
 
-type extended_storage = extension storage
+type result = (operation list * storage)
 
-type result = (operation list * extended_storage)
-
-let main (_p, s : string * extended_storage) : result =
+let main (_p, s : unit * storage) : result =
   no_operation, s
 
 [@view]
-let token_metadata ((p, s) : (nat * extended_storage))
+let token_metadata ((p, s) : (nat * storage))
 : TokenMetadata.data =
   TokenMetadata.get_token_metadata p s.token_metadata
